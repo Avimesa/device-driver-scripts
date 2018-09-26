@@ -14,8 +14,8 @@
 function avmsaMain(){
     var alarm = false;
 
-    const ALARM_VALUE_0 = 0.010;
-    const ALARM_VALUE_1 = 0.015;
+    var ALARM_VALUE_0 = 0.010;
+    var ALARM_VALUE_1 = 0.015;
 
     if (dev_in.dev.chans[0].ch_data[0].val > ALARM_VALUE_0){
         alarm = true;
