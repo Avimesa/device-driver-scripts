@@ -20,6 +20,7 @@ This project contains example Device Driver Scripts and Configurations to be use
   * [01-the-bare-minimum](#01-the-bare-minimum)
   * [02-alarms-and-notifications](#02-alarms-and-notifications)
   * [03-using-a-file-for-session-state](#03-using-a-file-for-session-state)
+  * [04-the-dev_in-object](#04-the-dev-in-object)
       
 <a id="1.-getting-started"></a>
 ## 1. Getting Started
@@ -57,7 +58,7 @@ A                | +-------------.     |       C2
                  |_____________________|       |~~~~~~~~~~~~~~~~~~~~~~~~~|
                    
 ```
-The Device (`A`) communicates through the Avimesa Device Cloud and the Device Driver Engine (`B`) executes a `Script` and configures a device with a `Config`.  The whole interaction executes in a containerized environment for the device.
+The Device (`A`) communicates through the Avimesa Device Cloud and the Device Driver Engine (`B`) executes a `Script` and configures a device with a `Config`.  The whole interaction executes in a containerized environment for the device within the Device Cloud.
 
 The `Script` is an ECMA 5.1 compliant JavaScript with additional Avimesa Device Cloud native functions covered in later sections.
 
@@ -248,3 +249,146 @@ function avmsaMain(){
 ```
 
 The script above simply loads the last state from disk and if there's a change in state, sends the data to the raw queue.
+
+<a id="04-the-dev-in-object"></a>
+### 04-the-dialtone-object
+
+The DialTone object is a JSON object used to represent device state, data, configuration and commands.  An example of this object is in the '04-the-dialtone-object' directory.
+
+It is intended to offer a dynamic, scalable, cross industry data model.  At a high level, it consists of a device which can contain device data and device configuration, provide the ability to support N “channels”, which are used to provide varied data types and configurations.  Also supported is the idea of commands that can be used to invoke processes.
+
+#### (root object)
+
+| Name | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `api_maj` | Number, uint32 | Yes | API Version Major |
+| `api_min` | Number, uint32 | Yes |  API Version Minor |
+| `dts` | Number, uint32 | Yes |  Epoch/Unix Time, approximate date time.  This is set upon deserialization in Device Cloud upon receipt. |
+| `dev`| Object| No | See `dev` section below |
+
+
+#### dev
+
+The Device node, access via `dev`.  It is not required but typically present.
+
+| Name | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `dev_id` | String | Yes | Device ID, UUID without hypens, lowercase |
+| `dev_cfg`| Object| No | See `dev_cfg` section below |
+| `dev_data`| Object| No | See `dev_data` section below |
+| `dev_cmd`| Object| No | See `dev_cmd` section below |
+| `chans`| Object| No | See `chans` section below |
+
+#### dev_cfg
+
+The Device Configuration node, accessed through `dev.dev_cfg`.  It is not required, but typically present in files like the `Config` file used by the Device Driver engine.
+
+| Name | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `heartbeat ` | Number, uint32 | Yes | In general, this parameter informs the device how long to sleep between measurements in seconds.  Valid range is 0-43200 |
+
+#### dev_data
+
+The Device Data node, accessed through `dev.dev_data`.  It is not required, but typically present in the `dev_in` object that is accesible in the Device Driver Engine runtime.
+
+| Name | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `dev_type ` | Number, uint32 | Yes | - 0x0000 - Unknown <br/> - 0x0100 - Avimessa 10000 |
+| `fw ` | Number, uint32 | Yes | Firmware revision, maj.min.build, where maj = 8 most significant bit, minor = next 8 bits, build = next 16 bits |
+| `hw_rev ` | Number, uint32 | Yes | Hardware revision, 4 bytes for 4 ASCII chars |
+| `bat ` | Number, float (single precision) | Yes | Power supply voltage (DC) |
+| `rssi ` | Number, int32 | Yes | NA |
+| `tmep ` | Number, int32 | Yes | NA |
+| `dev_sts  ` | Number, uint32 | Yes | Device Status Word (FUTURE USE) |
+
+#### dev_cmd
+
+The Device Command node, accessed through `dev.dev_cmd`.   It is not required, but typically present on JSON objects in the device's Actuation queue.
+
+| Name | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `dev_cmd_id ` | Number, uint16 | Yes | See Commands |
+| `req_id ` | Number, uint32 | Yes | Request ID provided by the API user, tracked through the system and given in a response for confirmation |
+| PAYLOAD | Various | No | See Commands |
+
+#### chans
+
+The Device's Channel(s) node, accessed through `dev.chans`.  It is not required, but typically present in both `Config` files and the `dev_in` object.
+
+| Name | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `ch_idx ` | Number, uint32 | Yes | Channel Index (zero based) |
+| `ch_cfg ` | Object | No | See `ch_cfg` |
+| `ch_data ` | Object | No |See `ch_data` |
+
+
+#### ch_cfg
+
+The Channel Configuration, accessed through `dev.chans[i].ch_cfg`.  It is not required, but typically in the `Config` file.
+
+| Name | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `ch_type ` | Number, uint32 | Yes | - 0x0000 - None <br/> - 0x0001 - 4-20 mA Sensor <br/> - 0x0100 - GPIO  |
+| `en ` | Number, Boolean | Yes | Whether the channel is enabled or disabled. 1 – Enabled, 0 – Disabled |
+| `sched ` | Number, uint32 | Yes | FUTURE USE |
+| `sensor ` | Object | No | See `sensor` |
+
+#### sensor
+
+The Channel Sensor Configuration, accessed through `dev.chans[i].ch_cfg.sensor`.  It is not required, but typically in the `Config` file.
+
+##### 4-20 mA Sensor Settings
+
+For 4-20 mA Sensor type channels.
+
+| Name | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `settling_time ` | Number, float single | Yes | Settling time for the sensor in seconds after being powered on and data is acceptably settled.  Valid range of 0-60000.0  |
+
+##### GPIO Sensor Flags
+
+For GPIO type channels.
+
+| Name | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `sens_flags ` | Number, uint16 | Yes | See below  |
+
+
+Byte 0
+
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| n/a | n/a | n/a | n/a | Latching | Persistent | Default State | Mode |
+
+Byte 1
+
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+
+
+A 16 bit unsigned value containing status flags for a GPIO channel configuration.
+
+A 'GPIO' means 'general purpose input or output'.  This means there's a "pin" on the board that we can set the voltage (0V or 3.3VDC) or we can detect if a voltage is "high" or "low"
+
+Setting the MODE to 0 means make this pin an INPUT pin and read the physical value (either high or low) and we can tell the user if it's high or low (on or off)
+
+If MODE is 0, the other bits are ignored as they aren't needed
+
+Setting MODE to 1 means make it an OUTPUT, which means we will set the voltage programmatically (high or low, or 3.3VDC or 0VDC)
+
+When the device boots up, we might need to set a default value for the pin, so the Default State bit says whether to boot up to high or low
+
+The persistent bit means that, whatever the state is before a power cycle, upon boot up, set that state to whatever it was (so it will override the Default State in this case).
+
+The Latching bit means that, if NOT set, when you set the GPIO pin it will go back to original state (e.g. a pulse).  If Latching bit is set, it will retain the value and not toggle.
+
+#### ch_data
+
+The Channel Data (array), accessed through `dev.chans[i].ch_data[j]`.  It is not required, but typically present in the `dev_in` object.
+
+| Name | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `data_idx ` | Number, uint32 | Yes | Index of the datum for the channel |
+| `units ` | Number, uint32 | Yes | See Units |
+| `data_idx ` | Number, uint32 or float | Yes | Based upon unit type, either a floating point or uint32 value |

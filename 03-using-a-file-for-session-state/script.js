@@ -33,7 +33,7 @@ function avmsaMain(){
     }
 
     // If there was a state change, send the data to the raw queue
-    if(currentState.open != lastState.open){
+    if (currentState.open != lastState.open){
         // Data has changed, send to client
         avmsaSendToRawQueue();
 
