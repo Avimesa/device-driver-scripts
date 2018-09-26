@@ -20,7 +20,8 @@ This project contains example Device Driver Scripts and Configurations to be use
   * [01-the-bare-minimum](#01-the-bare-minimum)
   * [02-alarms-and-notifications](#02-alarms-and-notifications)
   * [03-using-a-file-for-session-state](#03-using-a-file-for-session-state)
-  * [04-the-dev_in-object](#04-the-dev-in-object)
+  * [04-the-dialtone-object](#04-the-dialtone-object)
+  * [05-device-config-avimesa-1000](#05-device-config-avimesa-1000)
       
 <a id="1.-getting-started"></a>
 ## 1. Getting Started
@@ -392,3 +393,22 @@ The Channel Data (array), accessed through `dev.chans[i].ch_data[j]`.  It is not
 | `data_idx ` | Number, uint32 | Yes | Index of the datum for the channel |
 | `units ` | Number, uint32 | Yes | See Units |
 | `data_idx ` | Number, uint32 or float | Yes | Based upon unit type, either a floating point or uint32 value |
+
+<a id="05-device-config-avimesa-1000"></a>
+### 05-device-config-avimesa-1000
+
+A Device can be configured by uploading a `Config` file using the Avimesa API.  The `Config` file is essentially the configuration portions available in the DialTone object described in the [04-the-dialtone-object](#04-the-dialtone-object) section.
+
+The example configuration files do the following for an Avimesa 1000:
+
+#### config1.json
+
+- Take a measurement once an hour
+- The analog 4-20 mA sensor channels 0-3 are enabled to take measurements, with settling times of 10.0, 5.0, 1.0 and 0.5 seconds respectively.
+- The digital channels 8-9 are enabled as outputs without any other flags
+
+#### config2.json
+
+- Take measurements continuously on all analog 4-20 mA sensor channels
+- Initially settle the channels for 10.0 seconds upon first power up
+- Sensors will stay powered on with this configuration
