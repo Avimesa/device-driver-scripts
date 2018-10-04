@@ -2,26 +2,28 @@
 
 This project contains example Device Driver Scripts and Configurations to be used with the Avimesa Device Cloud.  The engine is based on JerryScript (http://jerryscript.net) and runs server side instead of device side.  Thanks to Tillman Scheller for JerryScript.
 
+<a id="toc"></a>
+## Table of Contents
 - [1. Getting Started](#1.-getting-started)
 - [2. Prerequisites](#2.-prerequisites)
 - [3. Device Driver Engine Overview](#3.-device-driver-engine-overview)
-  * [3.1 Summary](#3.1-summary)
-  * [3.2 Process Model](#3.2-process-model)
+    - [3.1 Summary](#3.1-summary)
+    - [3.2 Process Model](#3.2-process-model)
 - [4. Native Functions](#4.-native-functions)
-  * [4.1 avmsaGetEpochTime](#4.1-avmsaGetEpochTime)
-  * [4.2 avmsaSendToRawQueue](#4.2-avmsaSendToRawQueue)
-  * [4.3 avmsaSendToNotificationQueue](#4.3-avmsaSendToNotificationQueue)
-  * [4.4 avmsaGetNextActuationMsg](#4.4-avmsaGetNextActuationMsg)
-  * [4.5 avmsaWriteFile](#4.5-avmsaWriteFile)
-  * [4.6 avmsaReadFile](#4.6-avmsaReadFile)
-  * [4.7 avmsaGetFiles](#4.7-avmsaGetFiles)
-  * [4.8 avmsaSetStatusMsg](#4.8-avmsaSetStatusMsg)
+    - [4.1 avmsaGetEpochTime](#4.1-avmsaGetEpochTime)
+    - [4.2 avmsaSendToRawQueue](#4.2-avmsaSendToRawQueue)
+    - [4.3 avmsaSendToNotificationQueue](#4.3-avmsaSendToNotificationQueue)
+    - [4.4 avmsaGetNextActuationMsg](#4.4-avmsaGetNextActuationMsg)
+    - [4.5 avmsaWriteFile](#4.5-avmsaWriteFile)
+    - [4.6 avmsaReadFile](#4.6-avmsaReadFile)
+    - [4.7 avmsaGetFiles](#4.7-avmsaGetFiles)
+    - [4.8 avmsaSetStatusMsg](#4.8-avmsaSetStatusMsg)
 - [5. Quick Start Examples](#5.-quick-start-examples)
-  * [01-the-bare-minimum](#01-the-bare-minimum)
-  * [02-alarms-and-notifications](#02-alarms-and-notifications)
-  * [03-using-a-file-for-session-state](#03-using-a-file-for-session-state)
-  * [04-the-dialtone-object](#04-the-dialtone-object)
-  * [05-device-config-avimesa-1000](#05-device-config-avimesa-1000)
+    - [01-the-bare-minimum](#01-the-bare-minimum)
+    - [02-alarms-and-notifications](#02-alarms-and-notifications)
+    - [03-using-a-file-for-session-state](#03-using-a-file-for-session-state)
+    - [04-the-dialtone-object](#04-the-dialtone-object)
+    - [05-device-config-avimesa-1000](#05-device-config-avimesa-1000)
       
 <a id="1.-getting-started"></a>
 ## 1. Getting Started
@@ -251,7 +253,7 @@ function avmsaMain(){
 
 The script above simply loads the last state from disk and if there's a change in state, sends the data to the raw queue.
 
-<a id="04-the-dev-in-object"></a>
+<a id="04-the-dialtone-object"></a>
 ### 04-the-dialtone-object
 
 The DialTone object is a JSON object used to represent device state, data, configuration and commands.  An example of this object is in the '04-the-dialtone-object' directory.
@@ -267,7 +269,7 @@ It is intended to offer a dynamic, scalable, cross industry data model.  At a hi
 | `dts` | Number, uint32 | Yes |  Epoch/Unix Time, approximate date time.  This is set upon deserialization in Device Cloud upon receipt. |
 | `dev`| Object| No | See `dev` section below |
 
-
+<a id="04-the-dev-in-object-dev"></a>
 #### dev
 
 The Device node, access via `dev`.  It is not required but typically present.
@@ -280,6 +282,7 @@ The Device node, access via `dev`.  It is not required but typically present.
 | `dev_cmd`| Object| No | See `dev_cmd` section below |
 | `chans`| Object| No | See `chans` section below |
 
+<a id="04-the-dev-in-object-dev-cfg"></a>
 #### dev_cfg
 
 The Device Configuration node, accessed through `dev.dev_cfg`.  It is not required, but typically present in files like the `Config` file used by the Device Driver engine.
@@ -288,6 +291,7 @@ The Device Configuration node, accessed through `dev.dev_cfg`.  It is not requir
 | --- | --- | --- | --- |
 | `heartbeat ` | Number, uint32 | Yes | In general, this parameter informs the device how long to sleep between measurements in seconds.  Valid range is 0-43200 |
 
+<a id="04-the-dev-in-object-dev-data"></a>
 #### dev_data
 
 The Device Data node, accessed through `dev.dev_data`.  It is not required, but typically present in the `dev_in` object that is accesible in the Device Driver Engine runtime.
@@ -302,6 +306,7 @@ The Device Data node, accessed through `dev.dev_data`.  It is not required, but 
 | `tmep ` | Number, int32 | Yes | NA |
 | `dev_sts  ` | Number, uint32 | Yes | Device Status Word (FUTURE USE) |
 
+<a id="04-the-dev-in-object-dev-cmd"></a>
 #### dev_cmd
 
 The Device Command node, accessed through `dev.dev_cmd`.   It is not required, but typically present on JSON objects in the device's Actuation queue.
@@ -312,6 +317,7 @@ The Device Command node, accessed through `dev.dev_cmd`.   It is not required, b
 | `req_id ` | Number, uint32 | Yes | Request ID provided by the API user, tracked through the system and given in a response for confirmation |
 | PAYLOAD | Various | No | See Commands |
 
+<a id="04-the-dev-in-object-dev-chans"></a>
 #### chans
 
 The Device's Channel(s) node, accessed through `dev.chans`.  It is not required, but typically present in both `Config` files and the `dev_in` object.
@@ -322,7 +328,7 @@ The Device's Channel(s) node, accessed through `dev.chans`.  It is not required,
 | `ch_cfg ` | Object | No | See `ch_cfg` |
 | `ch_data ` | Object | No |See `ch_data` |
 
-
+<a id="04-the-dev-in-object-dev-chans-ch-cfg"></a>
 #### ch_cfg
 
 The Channel Configuration, accessed through `dev.chans[i].ch_cfg`.  It is not required, but typically in the `Config` file.
@@ -334,10 +340,12 @@ The Channel Configuration, accessed through `dev.chans[i].ch_cfg`.  It is not re
 | `sched ` | Number, uint32 | Yes | Measurement schedule, for future use.  Set to 1 for now.  |
 | `sensor ` | Object | Yes | See `sensor` |
 
+<a id="04-the-dev-in-object-dev-chans-ch-cfg-sensor"></a>
 #### sensor
 
 The Channel Sensor Configuration, accessed through `dev.chans[i].ch_cfg.sensor`.  It is not required, but typically in the `Config` file.
 
+<a id="04-the-dev-in-object-dev-chans-ch-cfg-sensor-420"></a>
 ##### 4-20 mA Sensor Settings
 
 For 4-20 mA Sensor type channels.
@@ -346,6 +354,7 @@ For 4-20 mA Sensor type channels.
 | --- | --- | --- | --- |
 | `settling_time ` | Number, float single | Yes | Settling time for the sensor in seconds after being powered on and data is acceptably settled.  Valid range of 0-60000.0  |
 
+<a id="04-the-dev-in-object-dev-chans-ch-cfg-sensor-gpio"></a>
 ##### GPIO Sensor Flags
 
 For GPIO type channels.
@@ -384,6 +393,7 @@ The persistent bit means that, whatever the state is before a power cycle, upon 
 
 The Latching bit means that, if NOT set, when you set the GPIO pin it will go back to original state (e.g. a pulse).  If Latching bit is set, it will retain the value and not toggle.
 
+<a id="04-the-dev-in-object-dev-chans-ch-data"></a>
 #### ch_data
 
 The Channel Data (array), accessed through `dev.chans[i].ch_data[j]`.  It is not required, but typically present in the `dev_in` object.
