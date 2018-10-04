@@ -32,7 +32,7 @@ The following scripts can be downloaded and used as is or as a starting point to
 ## 2. Prerequisites
 
 - Avimesa Device Cloud credentials
-- The Avimesa Toolkit (toolkit.avimesa.com)
+- The Avimesa Toolkit (https://toolkit.avimesa.com)
 - An Avimesa Device (or simulator)
 
 <a id="3.-device-driver-engine-overview"></a>
@@ -240,7 +240,7 @@ function avmsaMain(){
     }
 
     // If there was a state change, send the data to the raw queue
-    if(currentState.open != lastState.open){
+    if (currentState.open != lastState.open){
         avmsaSendToRawQueue();
     }
 
@@ -330,9 +330,9 @@ The Channel Configuration, accessed through `dev.chans[i].ch_cfg`.  It is not re
 | Name | Type | Required | Notes |
 | --- | --- | --- | --- |
 | `ch_type ` | Number, uint32 | Yes | - 0x0000 - None <br/> - 0x0001 - 4-20 mA Sensor <br/> - 0x0100 - GPIO  |
-| `en ` | Number, Boolean | Yes | Whether the channel is enabled or disabled. 1 – Enabled, 0 – Disabled |
-| `sched ` | Number, uint32 | Yes | FUTURE USE |
-| `sensor ` | Object | No | See `sensor` |
+| `en ` | Number, Boolean | Yes | 0 - disable measurement <br/> 1 - enable measurement |
+| `sched ` | Number, uint32 | Yes | Measurement schedule, for future use.  Set to 1 for now.  |
+| `sensor ` | Object | Yes | See `sensor` |
 
 #### sensor
 
