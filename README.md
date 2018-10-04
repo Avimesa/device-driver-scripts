@@ -23,13 +23,29 @@ This project contains example Device Driver Scripts and Configurations to be use
     - [02-alarms-and-notifications](#02-alarms-and-notifications)
     - [03-using-a-file-for-session-state](#03-using-a-file-for-session-state)
     - [04-the-dialtone-object](#04-the-dialtone-object)
+        - [root](#04-the-dialtone-object-root)
+        - [dev](#04-the-dialtone-object-dev)
+        - [dev_cfg](#the-dialtone-object-dev-cfg)
+        - [dev_data](#the-dialtone-object-dev-data)
+        - [dev_cmd](#04-the-dialtone-object-dev-cmd)
+        - [chans](#04-the-dialtone-object-dev-chans)
+        - [chans-ch_cfg](#04-the-dialtone-object-dev-chans-ch-cfg)
+        - [chans-ch_data](#04-the-dialtone-object-dev-chans-ch-data)
     - [05-device-config-avimesa-1000](#05-device-config-avimesa-1000)
-      
+
+
+
+
+[Top](#toc)<br> 
 <a id="1.-getting-started"></a>
 ## 1. Getting Started
 
 The following scripts can be downloaded and used as is or as a starting point to build custom scripts.
 
+
+
+
+[Top](#toc)<br>
 <a id="2.-prerequisites"></a>
 ## 2. Prerequisites
 
@@ -37,6 +53,11 @@ The following scripts can be downloaded and used as is or as a starting point to
 - The Avimesa Toolkit (https://toolkit.avimesa.com)
 - An Avimesa Device (or simulator)
 
+
+
+
+
+[Top](#toc)<br>
 <a id="3.-device-driver-engine-overview"></a>
 ## 3. Device Driver Engine Overview
 
@@ -78,6 +99,12 @@ The Avimesa API is used to upload `Scripts` and `Configs` to devices.
 
 A device connection will invoke the Device Driver Engine.  There is no session between transactions and are to be considered atomic in nature, with the exception of using the file access built in functions.
 
+
+
+
+
+
+[Top](#toc)<br>
 <a id="4.-native-functions"></a>
 ## 4. Native Functions
 
@@ -154,6 +181,11 @@ Sets a status message (64 char limit) to report to the system log queue.
 avmsaSetStatusMsg("Small debug message");
 ```
 
+
+
+
+
+[Top](#toc)<br>
 <a id="5.-quick-start-examples"></a>
 ## 5. Quick Start Examples
 
@@ -177,6 +209,7 @@ The entry point of the script is `avmsaMain()`.  We immediately send the device'
 
 Then, we grab the 'next' actuation message for the device (if any) using the `avmsaSendToRawQueue()`.  We set the response of this function call to the `dev_out.actuation` field to pass the actuation command 'as-is' to the device.
 
+[Top](#toc)<br>
 <a id="02-alarms-and-notifications"></a>
 ### 02-alarms-and-notifications
 
@@ -206,6 +239,7 @@ function avmsaMain(){
 
 The above will only send along the device's data to the notification queue if a condition is met that is deemed an alarm (in this case, channel 0's value is larger than 10mA or channel 1's is larger than 15mA).
 
+[Top](#toc)<br>
 <a id="03-using-a-file-for-session-state"></a>
 ### 03-using-a-file-for-session-state
 
@@ -253,6 +287,8 @@ function avmsaMain(){
 
 The script above simply loads the last state from disk and if there's a change in state, sends the data to the raw queue.
 
+
+[Top](#toc)<br>
 <a id="04-the-dialtone-object"></a>
 ### 04-the-dialtone-object
 
@@ -260,6 +296,9 @@ The DialTone object is a JSON object used to represent device state, data, confi
 
 It is intended to offer a dynamic, scalable, cross industry data model.  At a high level, it consists of a device which can contain device data and device configuration, provide the ability to support N “channels”, which are used to provide varied data types and configurations.  Also supported is the idea of commands that can be used to invoke processes.
 
+
+[Top](#toc)<br>
+<a id="04-the-dialtone-object-root"></a>
 #### (root object)
 
 | Name | Type | Required | Notes |
@@ -269,7 +308,9 @@ It is intended to offer a dynamic, scalable, cross industry data model.  At a hi
 | `dts` | Number, uint32 | Yes |  Epoch/Unix Time, approximate date time.  This is set upon deserialization in Device Cloud upon receipt. |
 | `dev`| Object| No | See `dev` section below |
 
-<a id="04-the-dev-in-object-dev"></a>
+
+[Top](#toc)<br>
+<a id="04-the-dialtone-object-dev"></a>
 #### dev
 
 The Device node, access via `dev`.  It is not required but typically present.
@@ -282,7 +323,10 @@ The Device node, access via `dev`.  It is not required but typically present.
 | `dev_cmd`| Object| No | See `dev_cmd` section below |
 | `chans`| Object| No | See `chans` section below |
 
-<a id="04-the-dev-in-object-dev-cfg"></a>
+
+
+[Top](#toc)<br>
+<a id="the-dialtone-object-dev-cfg"></a>
 #### dev_cfg
 
 The Device Configuration node, accessed through `dev.dev_cfg`.  It is not required, but typically present in files like the `Config` file used by the Device Driver engine.
@@ -291,7 +335,10 @@ The Device Configuration node, accessed through `dev.dev_cfg`.  It is not requir
 | --- | --- | --- | --- |
 | `heartbeat ` | Number, uint32 | Yes | In general, this parameter informs the device how long to sleep between measurements in seconds.  Valid range is 0-43200 |
 
-<a id="04-the-dev-in-object-dev-data"></a>
+
+
+[Top](#toc)<br>
+<a id="the-dialtone-object-dev-data"></a>
 #### dev_data
 
 The Device Data node, accessed through `dev.dev_data`.  It is not required, but typically present in the `dev_in` object that is accesible in the Device Driver Engine runtime.
@@ -306,7 +353,10 @@ The Device Data node, accessed through `dev.dev_data`.  It is not required, but 
 | `tmep ` | Number, int32 | Yes | NA |
 | `dev_sts  ` | Number, uint32 | Yes | Device Status Word (FUTURE USE) |
 
-<a id="04-the-dev-in-object-dev-cmd"></a>
+
+
+[Top](#toc)<br>
+<a id="04-the-dialtone-object-dev-cmd"></a>
 #### dev_cmd
 
 The Device Command node, accessed through `dev.dev_cmd`.   It is not required, but typically present on JSON objects in the device's Actuation queue.
@@ -317,7 +367,10 @@ The Device Command node, accessed through `dev.dev_cmd`.   It is not required, b
 | `req_id ` | Number, uint32 | Yes | Request ID provided by the API user, tracked through the system and given in a response for confirmation |
 | PAYLOAD | Various | No | See Commands |
 
-<a id="04-the-dev-in-object-dev-chans"></a>
+
+
+[Top](#toc)<br>
+<a id="04-the-dialtone-object-dev-chans"></a>
 #### chans
 
 The Device's Channel(s) node, accessed through `dev.chans`.  It is not required, but typically present in both `Config` files and the `dev_in` object.
@@ -328,7 +381,10 @@ The Device's Channel(s) node, accessed through `dev.chans`.  It is not required,
 | `ch_cfg ` | Object | No | See `ch_cfg` |
 | `ch_data ` | Object | No |See `ch_data` |
 
-<a id="04-the-dev-in-object-dev-chans-ch-cfg"></a>
+
+
+[Top](#toc)<br>
+<a id="04-the-dialtone-object-dev-chans-ch-cfg"></a>
 #### ch_cfg
 
 The Channel Configuration, accessed through `dev.chans[i].ch_cfg`.  It is not required, but typically in the `Config` file.
@@ -340,12 +396,18 @@ The Channel Configuration, accessed through `dev.chans[i].ch_cfg`.  It is not re
 | `sched ` | Number, uint32 | Yes | Measurement schedule, for future use.  Set to 1 for now.  |
 | `sensor ` | Object | Yes | See `sensor` |
 
-<a id="04-the-dev-in-object-dev-chans-ch-cfg-sensor"></a>
+
+
+[Top](#toc)<br>
+<a id="04-the-dialtone-object-dev-chans-ch-cfg-sensor"></a>
 #### sensor
 
 The Channel Sensor Configuration, accessed through `dev.chans[i].ch_cfg.sensor`.  It is not required, but typically in the `Config` file.
 
-<a id="04-the-dev-in-object-dev-chans-ch-cfg-sensor-420"></a>
+
+
+[Top](#toc)<br>
+<a id="04-the-dialtone-object-dev-chans-ch-cfg-sensor-420"></a>
 ##### 4-20 mA Sensor Settings
 
 For 4-20 mA Sensor type channels.
@@ -354,7 +416,9 @@ For 4-20 mA Sensor type channels.
 | --- | --- | --- | --- |
 | `settling_time ` | Number, float single | Yes | Settling time for the sensor in seconds after being powered on and data is acceptably settled.  Valid range of 0-60000.0  |
 
-<a id="04-the-dev-in-object-dev-chans-ch-cfg-sensor-gpio"></a>
+
+[Top](#toc)<br>
+<a id="04-the-dialtone-object-dev-chans-ch-cfg-sensor-gpio"></a>
 ##### GPIO Sensor Flags
 
 For GPIO type channels.
@@ -393,7 +457,9 @@ The persistent bit means that, whatever the state is before a power cycle, upon 
 
 The Latching bit means that, if NOT set, when you set the GPIO pin it will go back to original state (e.g. a pulse).  If Latching bit is set, it will retain the value and not toggle.
 
-<a id="04-the-dev-in-object-dev-chans-ch-data"></a>
+
+[Top](#toc)<br>
+<a id="04-the-dialtone-object-dev-chans-ch-data"></a>
 #### ch_data
 
 The Channel Data (array), accessed through `dev.chans[i].ch_data[j]`.  It is not required, but typically present in the `dev_in` object.
@@ -404,6 +470,8 @@ The Channel Data (array), accessed through `dev.chans[i].ch_data[j]`.  It is not
 | `units ` | Number, uint32 | Yes | See Units |
 | `data_idx ` | Number, uint32 or float | Yes | Based upon unit type, either a floating point or uint32 value |
 
+
+[Top](#toc)<br>
 <a id="05-device-config-avimesa-1000"></a>
 ### 05-device-config-avimesa-1000
 
@@ -422,3 +490,17 @@ The example configuration files do the following for an Avimesa 1000:
 - Take measurements continuously on all analog 4-20 mA sensor channels
 - Initially settle the channels for 10.0 seconds upon first power up
 - Sensors will stay powered on with this configuration
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Top](#toc)<br>
