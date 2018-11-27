@@ -402,7 +402,7 @@ The Channel Configuration, accessed through `dev.chans[i].ch_cfg`.  It is not re
 <a id="04-the-dialtone-object-dev-chans-ch-cfg-sensor"></a>
 #### sensor
 
-The Channel Sensor Configuration, accessed through `dev.chans[i].ch_cfg.sensor`.  It is not required, but typically in the `Config` file.
+The Channel Sensor Configuration, accessed through `dev.chans[i].ch_cfg.sensor`.  It is not required for all channel types, but typically in the `Config` file.
 
 
 
