@@ -1,4 +1,5 @@
 # Avimesa Device Driver Scripts
+*last updated 2019-Jan-2*
 
 This project contains example Device Driver Scripts and Configurations to be used with the Avimesa Device Cloud.  The engine is based on JerryScript (http://jerryscript.net) and runs server side instead of device side.  Thanks to Tillman Scheller for JerryScript.
 
@@ -32,7 +33,7 @@ This project contains example Device Driver Scripts and Configurations to be use
         - [chans-ch_cfg](#04-the-dialtone-object-dev-chans-ch-cfg)
         - [chans-ch_data](#04-the-dialtone-object-dev-chans-ch-data)
     - [05-device-config-avimesa-1000](#05-device-config-avimesa-1000)
-
+- [Appendix A - Units](#a.-units)
 
 
 
@@ -494,8 +495,93 @@ The example configuration files do the following for an Avimesa 1000:
 
 
 
+[Top](#toc)<br> 
+<a id="a.-units"></a>
+## Appendix A - Units
 
-
+| Name | Value (base 16) | Value (base 10) | Description |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_UNKNOWN | 0x0000 | 0 | Unknown unit type |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_AMPS_DC  | 0x0001 | 1 | Amperage, DC |
+| eAVI_ENG_UNIT_AMPS_AC  | 0x0002 | 2 | Amperage, AC |
+| eAVI_ENG_UNIT_VOLTS_DC | 0x0003 | 3 | Volts, DC |
+| eAVI_ENG_UNIT_VOLTS_AC | 0x0004 | 4 | Volts, AC |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_C | 0x0010 | 16 | Temperature, Celsius |
+| eAVI_ENG_UNIT_F | 0x0011 | 17 | Temperature, Fahrenheit |
+| eAVI_ENG_UNIT_K | 0x0012 | 18 | Temperature, Kelvin |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_PSI   | 0x0020 | 32 | Pressure, pound-force per square inch |
+| eAVI_ENG_UNIT_PA    | 0x0021 | 33 | Pressure, pascal |
+| eAVI_ENG_UNIT_BAR   | 0x0022 | 34 | Pressure, bar |
+| eAVI_ENG_UNIT_TORR  | 0x0023 | 35 | Pressure, torr |
+| eAVI_ENG_UNIT_ATM   | 0x0024 | 36 | Pressure, atmosphere |
+| eAVI_ENG_UNIT_PSID  | 0x0028 | 40 | Pressure, pound-force per square inch, differential |
+| eAVI_ENG_UNIT_PAD   | 0x0029 | 41 | Pressure, pascal, differential |
+| eAVI_ENG_UNIT_BARD  | 0x002A | 42 | Pressure, bar, differential |
+| eAVI_ENG_UNIT_TORRD | 0x002B | 43 | Pressure, torr, differential |
+| eAVI_ENG_UNIT_ATMD  | 0x002C | 44 | Pressure, atmosphere, differential |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_SEC | 0x0030 | 48 | Seconds |
+| eAVI_ENG_UNIT_HZ  | 0x0031 | 49 | Hertz |
+| eAVI_ENG_UNIT_CPM | 0x0032 | 50 | Cycles Per Minute |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_METERS          | 0x0040 | 64 | Meters |
+| eAVI_ENG_UNIT_METER_PER_SEC   | 0x0041 | 65 | Meters Per Second |
+| eAVI_ENG_UNIT_METER_PER_SEC2  | 0x0042 | 66 | Meters Per Second^2 |
+| eAVI_ENG_UNIT_FEET            | 0x0043 | 67 | Feet |
+| eAVI_ENG_UNIT_FEET_PER_SEC    | 0x0044 | 68 | Feet Per Second |
+| eAVI_ENG_UNIT_FEET_PER_SEC2   | 0x0045 | 69 | Feet Per Second^2 |
+| eAVI_ENG_UNIT_INCHES          | 0x0046 | 70 | Inches |
+| eAVI_ENG_UNIT_INCHES_PER_SEC  | 0x0047 | 71 | Inches Per Second |
+| eAVI_ENG_UNIT_INCHES_PER_SEC2 | 0x0048 | 72 | Inches Per Second^2 |
+| eAVI_ENG_UNIT_INCHES          | 0x0049 | 73 | Yards |
+| eAVI_ENG_UNIT_INCHES_PER_SEC  | 0x004A | 74 | Yards Per Second |
+| eAVI_ENG_UNIT_INCHES_PER_SEC2 | 0x004B | 75 | Yards Per Second^2 |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_KILOGRAM | 0x0050 | 80 | Kilogram |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_NEWTON | 0x0060 | 96 | Newton |
+| eAVI_ENG_UNIT_JOULE  | 0x0061 | 97 | Joule |
+| eAVI_ENG_UNIT_WATT   | 0x0062 | 98 |  Watt |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_LPM | 0x0070 | 112 | Liter Per Minute |
+| eAVI_ENG_UNIT_GPM | 0x0071 | 113 | Gallon Per Minute |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_CUBIC_METER | 0x0080 | 128 | Cubic Meter |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_IPS_PK     | 0x0100 | 256 | Inches Per Second, Peak |
+| eAVI_ENG_UNIT_IPS_RMS    | 0x0101 | 257 | Inches Per Second, RMS |
+| eAVI_ENG_UNIT_MMS_PK     | 0x0102 | 258 | mm/s, Peak |
+| eAVI_ENG_UNIT_MMS_RMS    | 0x0103 | 259 | mm/s, RMS |
+| eAVI_ENG_UNIT_G_RMS      | 0x0104 | 260 | g, Peak |
+| eAVI_ENG_UNIT_G_PK       | 0x0105 | 261 | g, RMS |
+| eAVI_ENG_UNIT_MILS_PK_PK | 0x0106 | 262 | mils, peak to peak |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_BOOL        | 0x1000 | 4096 | Boolean type data, 0 or 1 |
+| eAVI_ENG_UNIT_ON_OFF      | 0x1001 | 4097 | On/off data, 0 or 1 |
+| eAVI_ENG_UNIT_OPEN_CLOSED | 0x1002 | 4098 |Open/Closed data, 0 or 1 |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_RUN_HOURS | 0x1010 | 4112 | Run hours |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_LATITUDE  | 0x1020 | 4128 | Latitude |
+| eAVI_ENG_UNIT_LONGITUDE | 0x1021 | 4129 | Longitude |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_REL_HUM  | 0x1031 | 4145 | Relative Humidity |
+| eAVI_ENG_UNIT_ABS_HUM  | 0x1032 | 4146 | Absolute Humidity |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_PERCENT  | 0x1040 | 4160 | Percentage |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_PPM  | 0x1050 | 4176 | Parts per million |
+| eAVI_ENG_UNIT_PPB  | 0x1051 | 4177 | Parts per billion |
+| eAVI_ENG_UNIT_PPQ  | 0x1052 | 4178 | Parts per quadrillion |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_DB  | 0x1060 | 4192 | Decibels |
+| eAVI_ENG_UNIT_DBA | 0x1061 | 4193 | Decibels adjusted|
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_ADC_COUNTS | 0xF000 | 61440 | ADC Counts |
+| --- | --- | --- | --- |
 
 
 
