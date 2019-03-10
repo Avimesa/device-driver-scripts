@@ -1,5 +1,5 @@
 # Avimesa Device Driver Scripts
-*last updated 2019-Jan-2*
+*last updated 2019-Mar-10*
 
 This project contains example Device Driver Scripts and Configurations to be used with the Avimesa Device Cloud.  The engine is based on JerryScript (http://jerryscript.net) and runs server side instead of device side.  Thanks to Tillman Scheller for JerryScript.
 
@@ -33,6 +33,7 @@ This project contains example Device Driver Scripts and Configurations to be use
         - [chans-ch_cfg](#04-the-dialtone-object-dev-chans-ch-cfg)
         - [chans-ch_data](#04-the-dialtone-object-dev-chans-ch-data)
     - [05-device-config-avimesa-1000](#05-device-config-avimesa-1000)
+    - [06-avimesa-1000-beta](#06-avimesa-1000-beta)
 - [Appendix A - Units](#a.-units)
 
 
@@ -492,6 +493,23 @@ The example configuration files do the following for an Avimesa 1000:
 - Initially settle the channels for 10.0 seconds upon first power up
 - Sensors will stay powered on with this configuration
 
+
+
+[Top](#toc)<br>
+<a id="06-avimesa-1000-beta"></a>
+### 06-avimesa-1000-beta
+
+This example is used with the Avimesa 1000 beta kits.  It will continuously upload readings from a XTP25N temperature sensor on channel 0 of the Avimesa 1000.
+
+#### script.js
+
+- Converts the raw mA sensor reading on any of the 7 channels into a temperature reading for the XTP25N sensor
+- Sends this processed data to the `raw` queue for the Toolkit application to consume
+
+#### config.json
+
+- Take measurements continuously on channel 0, with a 4.0 second settling time
+- The digital channels 8-9 are disabled and set as outputs without any other flags
 
 
 
