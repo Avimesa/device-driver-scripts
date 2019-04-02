@@ -1,5 +1,5 @@
 # Avimesa Device Driver Scripts
-*last updated 2019-Mar-10*
+*last updated 2019-Apr-2*
 
 This project contains example Device Driver Scripts and Configurations to be used with the Avimesa Device Cloud.  The engine is based on JerryScript (http://jerryscript.net) and runs server side instead of device side.  Thanks to Tillman Scheller for JerryScript.
 
@@ -557,6 +557,8 @@ This example is used with the Avimesa 1000 beta kits.  It will continuously uplo
 | eAVI_ENG_UNIT_INCHES          | 0x0049 | 73 | Yards |
 | eAVI_ENG_UNIT_INCHES_PER_SEC  | 0x004A | 74 | Yards Per Second |
 | eAVI_ENG_UNIT_INCHES_PER_SEC2 | 0x004B | 75 | Yards Per Second^2 |
+| eAVI_ENG_UNIT_MILLIMETERS     | 0x004C | 76 | Millimeters |
+| eAVI_ENG_UNIT_NANOMETERS      | 0x004D | 77 | Nanometers |
 | --- | --- | --- | --- |
 | eAVI_ENG_UNIT_KILOGRAM | 0x0050 | 80 | Kilogram |
 | --- | --- | --- | --- |
@@ -597,6 +599,14 @@ This example is used with the Avimesa 1000 beta kits.  It will continuously uplo
 | --- | --- | --- | --- |
 | eAVI_ENG_UNIT_DB  | 0x1060 | 4192 | Decibels |
 | eAVI_ENG_UNIT_DBA | 0x1061 | 4193 | Decibels adjusted|
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_PH | 0x1070 | 4208 | pH|
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_NM | 0x1080 | 4224 | Torque, Newton Meters |
+| eAVI_ENG_UNIT_LBF_FT | 0x1081 | 4225 | Torque, Pound Foot |
+| --- | --- | --- | --- |
+| eAVI_ENG_UNIT_NM_PER_SEC2 | 0x1090 | 4240 | Rotating Inertia, Newton Meter per sec^2 |
+| eAVI_ENG_UNIT_OZF_IN_PER_SEC2 | 0x1091 | 4241 | Rotating Inertia, Ounce force inch per sec^2 |
 | --- | --- | --- | --- |
 | eAVI_ENG_UNIT_ADC_COUNTS | 0xF000 | 61440 | ADC Counts |
 | --- | --- | --- | --- |
